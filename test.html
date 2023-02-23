@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <script src="test.js" async defer></script>
+        <p style="max-width: 50rem">Bug: The leak we’re seeing is that a `await promise` sometimes retains its closure after the promise is fulfilled. We get a  retain in a `parameters_and_registers` generator with a `running` state.  </p>
+        <ol>
+            <li>Load Tab</li>
+            <li>Take Heap Snapshot</li>
+            <li>Search snapshot for “Daniel” string. Result: Only 1 occurrence in loaded JS as expected</li>
+            <li>Reload tab</li>
+            <li>Take another heap snapshot</li>
+            <li>Search snapshot for “Daniel”. Result: Two occurrences, with second being retained by an await/generator.</li>
+        </ol>
+        <image src="retain-shot.png" width="80%"></image>
+    </body>
+</html>
